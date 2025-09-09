@@ -70,7 +70,7 @@ const fetchStandings = () => {
     contentType: "application/json",
     data: {
       // Data to send (optional)
-      competition_id: 36-34,
+      competition_id: 36,
       key: Api_key,
       secret: Api_secret,
       lang: "ar",
@@ -126,7 +126,7 @@ const fetchGoalRanking=()=>{
     type:'GET',
     contentType:'application/json',
     data:{
-      competition_id: 36-34,
+      competition_id: 36,
       key: apiKey,
       secret: secretKey,
       lang: "ar",
