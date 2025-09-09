@@ -1,5 +1,5 @@
 const Api_key = "werqOGTBezEy8V4r";
-const Api_secret = "wxSGGQ9hyDTFlufukR9FZs7S7THYXKQt";
+const Api_secret = "A6Mgw6Tc3TYYGuqcJRDyyw9N6OleKpGk";
 var standingsData = [];
 var standingsDataAr=[];
 var goalsData=[];
@@ -90,18 +90,15 @@ const fetchStandings = () => {
 };
 
 const fetchAr=()=>{
-  //https://livescore-api.com/api-client/competitions/standings.json?competition_id=36&key=werqOGTBezEy8V4r&secret=A6Mgw6Tc3TYYGuqcJRDyyw9N6OleKpGk&lang=ar
   const baseURL='https://livescore-api.com/api-client/competitions/standings.json';
-  const apiKey='werqOGTBezEy8V4r';
-  const secretKey='A6Mgw6Tc3TYYGuqcJRDyyw9N6OleKpGk';
   $.ajax({
     url:baseURL,
     type:"GET",
     contentType:'application/json',
     data:{
-      competition_id: 36/*-34*/,
-      key: apiKey,
-      secret: secretKey,
+      competition_id: 36,
+      key: Api_key,
+      secret: Api_secret,
       lang: "ar",
     },
      success: function (response) {
@@ -119,16 +116,14 @@ const fetchAr=()=>{
 }
 
 const fetchGoalRanking=()=>{
-  const apiKey='werqOGTBezEy8V4r';
-  const secretKey='A6Mgw6Tc3TYYGuqcJRDyyw9N6OleKpGk';
   $.ajax({
     url:'https://livescore-api.com/api-client/competitions/topscorers.json',
     type:'GET',
     contentType:'application/json',
     data:{
       competition_id: 36,
-      key: apiKey,
-      secret: secretKey,
+      key: Api_key,
+      secret: Api_secret,
       lang: "ar",
     },
     success: function (response) {
