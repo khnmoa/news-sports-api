@@ -1,0 +1,118 @@
+
+
+
+section {
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #007bff; /* Bootstrap primary color */
+}
+
+p {
+    margin: 5px 0;
+}
+
+input[type="number"],
+select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#matches-list {
+    border: 1px solid #ced4da;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f8f9fa;
+}
+
+/*matches*/
+    .live {
+      color: red;
+      font-weight: bold;
+    }
+    .match-table img {
+      vertical-align: middle;
+      margin-right: 5px;
+    }/* تنسيق عام */
+body {
+  font-family: 'Tahoma', sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* الأخبار */
+#news .news-section {
+  margin-bottom: 2rem;
+}
+#news h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 5px solid #0d6efd;
+  padding-left: 10px;
+}
+.news-card {
+  transition: transform 0.2s ease-in-out;
+}
+.news-card:hover {
+  transform: scale(1.03);
+}
+
+
+aside {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+aside h2 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+aside section {
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+
+.player-card {
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+}
+
+.player-card:hover {
+  transform: scale(1.05);
+}
+
+.player-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 10px;
+  background-color: #e9ecef;
+}
+
+.team-logo {
+  width: 40px;
+  height: 40px;
+  margin-right: 8px;
+}

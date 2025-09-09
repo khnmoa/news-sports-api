@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>News Website</title>
+
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" 
+        rel="stylesheet">
+
+
+  <link rel="stylesheet" href="assest/css/style.css">
+</head>
+<body>
+     
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container">
+    <span class="navbar-brand mb-0 h1">footballball Season 2025</span>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="matches.html">Matches LP</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link text-white" href="liveMatchesToday.html">matches today</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link text-white" href="baseball.html">baseball Matches</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="standings.html">Standings</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="statistic.html">statistic</a>
+        </li>
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+  <div class="container-fluid">
+    <div class="row">
+      
+
+      <main class="col-md-9 p-4">
+        <div id="news">
+      
+        </div>
+      </main>
+
+  
+      <aside class="col-md-3 bg-light p-4 border-start">
+ 
+        <section id="weather" class="mb-4">
+          <h2 class="h5 border-bottom pb-2"> Current Weather</h2>
+          <p id="weather-info">Loading weather...</p>
+        </section>
+
+    
+        <section id="currency" class="mb-4">
+          <h2 class="h5 border-bottom pb-2"> Exchange Rates</h2>
+          <p id="usd">USD: ...</p>
+          <p id="sar">SAR: ...</p>
+
+          <h3 class="h6 mt-3">Currency Converter</h3>
+          <input type="number" id="amount" class="form-control mb-2" placeholder="Amount">
+          <select id="from" class="form-select mb-2">
+            <option value="USD">USD</option>
+            <option value="SAR">SAR</option>
+            <option value="EGP">EGP</option>
+          </select>
+          <span>to</span>
+          <select id="to" class="form-select mb-2">
+            <option value="EGP">EGP</option>
+            <option value="USD">USD</option>
+            <option value="SAR">SAR</option>
+          </select>
+          <button id="convert" class="btn btn-primary w-100">Convert</button>
+          <p id="result" class="mt-2 fw-bold"></p>
+        </section>
+
+   
+<ul class="navbar-nav">
+  <li class="nav-item">
+    <a class="nav-link text-white" href="live.html" style="color: black;">Live Matches</a>
+  </li>
+</ul>
+
+
+<section id="live-matches">
+  <h2 class="h5 border-bottom pb-2">Live Matches</h2>
+  <div id="matches-list">Loading matches...</div>
+</section>
+
+  
+       
+      </aside>
+    </div>
+  </div>
+
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+   <script src="assest/js/main.js"></script>
+
+</body>
+</html>

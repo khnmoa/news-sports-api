@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matches</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+  <h2 class="mb-4">Football Matches</h2>
+
+  <!-- Tabs -->
+  <ul class="nav nav-tabs" id="matchTabs" role="tablist">
+    <li class="nav-item">
+      <button class="nav-link active" id="live-tab" data-bs-toggle="tab" data-bs-target="#live" type="button">Live Matches</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" id="scheduled-tab" data-bs-toggle="tab" data-bs-target="#scheduled" type="button">Scheduled Matches</button>
+    </li>
+    <li class="nav-item">
+      <button class="nav-link" id="past-tab" data-bs-toggle="tab" data-bs-target="#past" type="button">Past Matches</button>
+    </li>
+  </ul>
+
+  <!-- Tab Content -->
+  <div class="tab-content mt-3">
+    <!-- Live Matches -->
+    <div class="tab-pane fade show active" id="live">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>League</th>
+            <th>Home</th>
+            <th>Away</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Venue</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody id="live-list">
+          <tr><td colspan="7">Loading live matches...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Scheduled Matches -->
+    <div class="tab-pane fade" id="scheduled">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>League</th>
+            <th>Home</th>
+            <th>Away</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Venue</th>
+          </tr>
+        </thead>
+        <tbody id="scheduled-list">
+          <tr><td colspan="6">Loading scheduled matches...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Past Matches -->
+    <div class="tab-pane fade" id="past">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>League</th>
+            <th>Home</th>
+            <th>Away</th>
+            <th>Date</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody id="past-list">
+          <tr><td colspan="5">Loading past matches...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+$(document).ready(function () {
+  const apiKey = "6DQtQHceC7caFJVO";
+  const apiSecret = "YMMuLgRDQpUAnphu27YSPa7sijCY2yM0";
+
+  // Live Matches
+  $.get(`https://livescore-api.com/api-client/matches/live.json?key=${apiKey}&secret=${apiSecret}`, function(response) {
+    renderLive(response.data?.match || []);
+  }).fail(() => $("#live-list").html("<tr><td colspan='7'>Failed to load live matches</td></tr>"));
+
+  function renderLive(matches) {
+    if (!matches.length) {
+      $("#live-list").html("<tr><td colspan='7'>No live matches found</td></tr>");
+      return;
+    }
+    let html = "";
+    matches.forEach(match => {
+      const league = match.competition?.name ?? "Unknown";
+      const home = match.home?.name ?? "Unknown";
+      const away = match.away?.name ?? "Unknown";
+      const date = match.added ?? "Unknown";
+      const venue = match.location ?? "Unknown";
+      const score = match.scores?.score ?? "TBD";
+      const status = match.status ?? "Unknown";
+      html += `
+        <tr>
+          <td>${league}</td>
+          <td>${home}</td>
+          <td>${away}</td>
+          <td>${date}</td>
+          <td>${match.scheduled ?? "Unknown"}</td>
+          <td>${venue}</td>
+          <td>${score} (${status})</td>
+        </tr>`;
+    });
+    $("#live-list").html(html);
+  }
+
+  // Scheduled Matches
+  $.get(`https://livescore-api.com/api-client/matches/scheduled.json?key=${apiKey}&secret=${apiSecret}`, function(response) {
+    renderScheduled(response.data?.match || []);
+  }).fail(() => $("#scheduled-list").html("<tr><td colspan='6'>Failed to load scheduled matches</td></tr>"));
+
+  function renderScheduled(matches) {
+    if (!matches.length) {
+      $("#scheduled-list").html("<tr><td colspan='6'>No scheduled matches found</td></tr>");
+      return;
+    }
+    let html = "";
+    matches.forEach(match => {
+      html += `
+        <tr>
+          <td>${match.competition?.name ?? "Unknown"}</td>
+          <td>${match.home?.name ?? "Unknown"}</td>
+          <td>${match.away?.name ?? "Unknown"}</td>
+          <td>${match.date ?? "Unknown"}</td>
+          <td>${match.time ?? "Unknown"}</td>
+          <td>${match.venue ?? "Unknown"}</td>
+        </tr>`;
+    });
+    $("#scheduled-list").html(html);
+  }
+
+  // Past Matches (History)
+  $.get(`https://livescore-api.com/api-client/scores/history.json?key=${apiKey}&secret=${apiSecret}`, function(response) {
+    renderPast(response.data?.match || []);
+  }).fail(() => $("#past-list").html("<tr><td colspan='5'>Failed to load past matches</td></tr>"));
+
+  function renderPast(matches) {
+    if (!matches.length) {
+      $("#past-list").html("<tr><td colspan='5'>No past matches found</td></tr>");
+      return;
+    }
+    let html = "";
+    matches.forEach(match => {
+      html += `
+        <tr>
+          <td>${match.competition?.name ?? "Unknown"}</td>
+          <td>${match.home?.name ?? "Unknown"}</td>
+          <td>${match.away?.name ?? "Unknown"}</td>
+          <td>${match.date ?? "Unknown"}</td>
+          <td>${match.scores?.ft_home ?? 0} - ${match.scores?.ft_away ?? 0}</td>
+        </tr>`;
+    });
+    $("#past-list").html(html);
+  }
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

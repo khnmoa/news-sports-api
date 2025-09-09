@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live Football Matches</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+  <!-- Navbar -->
+  <nav class="bg-gray-900 text-white px-6 py-4 flex justify-between items-center">
+    <span class="text-xl font-bold">⚽ Football Season 2023 PL</span>
+    <ul class="flex space-x-6">
+      <li><a href="index.html" class="hover:text-blue-400">Home</a></li>
+      <li><a href="liveMatchesToday.html" class="hover:text-blue-400">Matches Today</a></li>
+      <li><a href="baseball.html" class="hover:text-blue-400">Baseball Matches</a></li>
+      <li><a href="standings.html" class="hover:text-blue-400">Standings</a></li>
+      <li><a href="statistic.html" class="hover:text-blue-400">Statistic</a></li>
+    </ul>
+  </nav>
+
+  <main class="p-6">
+    <h1 class="text-3xl font-bold mb-6 text-center text-blue-600">⚽ Live Matches</h1>
+
+    <!-- Filters Section -->
+    <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-6">
+      <select id="league-filter" class="px-4 py-2 border rounded-lg shadow-sm">
+        <option value="all">All Leagues</option>
+        <option value="Premier League">Premier League</option>
+        <option value="La Liga">La Liga</option>
+        <option value="Serie A">Serie A</option>
+        <option value="Bundesliga">Bundesliga</option>
+        <option value="Ligue 1">Ligue 1</option>
+      </select>
+
+      <input 
+        type="text" 
+        id="search-box" 
+        placeholder="Search by team or league..." 
+        class="px-4 py-2 border rounded-lg shadow-sm w-64"
+      />
+    </div>
+
+    <!-- Matches List -->
+    <div id="matches-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  </main>
+
+  <script>
+    const footballApiKey = "7616cabe45c82d4e3aed4f14325261ff"; 
+    let allMatches = [];
+
+    function renderMatches(filterLeague, searchQuery) {
+      let html = "";
+      let filteredMatches = allMatches;
+
+      // Filter by league
+      if (filterLeague !== "all") {
+        filteredMatches = filteredMatches.filter(m => m.league.name === filterLeague);
+      }
+
+      // Search by team or league
+      if (searchQuery) {
+        filteredMatches = filteredMatches.filter(m =>
+          m.teams.home.name.toLowerCase().includes(searchQuery) ||
+          m.teams.away.name.toLowerCase().includes(searchQuery) ||
+          m.league.name.toLowerCase().includes(searchQuery)
+        );
+      }
+
+      if (filteredMatches.length === 0) {
+        html = "<p class='text-center col-span-full text-gray-500'>No matches found</p>";
+      } else {
+        filteredMatches.forEach(match => {
+          const matchDate = new Date(match.fixture.date)
+            .toLocaleString("en-US", { timeZone: "Africa/Cairo" });
+
+          html += `
+            <div class="bg-white shadow-lg rounded-xl p-5 hover:shadow-2xl transition">
+              <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center">
+                  <img src="${match.teams.home.logo || 'default.png'}" 
+                       alt="${match.teams.home.name}" 
+                       class="w-8 h-8 mr-2">
+                  <span class="font-medium">${match.teams.home.name}</span>
+                </div>
+                <span class="text-lg font-bold text-blue-600">
+                  ${(match.goals.home ?? 0)} - ${(match.goals.away ?? 0)}
+                </span>
+                <div class="flex items-center">
+                  <img src="${match.teams.away.logo || 'default.png'}" 
+                       alt="${match.teams.away.name}" 
+                       class="w-8 h-8 mr-2">
+                  <span class="font-medium">${match.teams.away.name}</span>
+                </div>
+              </div>
+              <small class="block text-gray-500">${match.league.name} • ${matchDate}</small>
+            </div>
+          `;
+        });
+      }
+
+      $("#matches-list").html(html);
+    }
+
+    $(document).ready(function () {
+      $.ajax({
+        url: `https://v3.football.api-sports.io/fixtures?live=all`,
+        type: "GET",
+        headers: { "x-apisports-key": footballApiKey },
+        success: function (response) {
+          console.log(response);
+          allMatches = response.response;
+          renderMatches("all", "");
+        },
+        error: function () {
+          $("#matches-list").text("⚠️ Failed to load matches (check API key/account)");
+        }
+      });
+
+      // Dropdown filter
+      $("#league-filter").on("change", function () {
+        const selectedLeague = $(this).val();
+        const searchQuery = $("#search-box").val().toLowerCase();
+        renderMatches(selectedLeague, searchQuery);
+      });
+
+      // Search filter
+      $("#search-box").on("keyup", function () {
+        const searchQuery = $(this).val().toLowerCase();
+        const selectedLeague = $("#league-filter").val();
+        renderMatches(selectedLeague, searchQuery);
+      });
+    });
+  </script>
+</body>
+</html>
